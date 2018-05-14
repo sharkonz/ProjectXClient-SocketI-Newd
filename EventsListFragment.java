@@ -37,7 +37,7 @@ import java.util.List;
 public class EventsListFragment extends Fragment {
     private EvenetListListener mListener;
     private List<Event> eventsList = new LinkedList<>();
-//    private UserViewModel currentUser = null;
+    //    private UserViewModel currentUser = null;
     private int _userId;
     private EventAdapter adapter;
 
@@ -82,9 +82,15 @@ public class EventsListFragment extends Fragment {
             Repository.instance.getEventsFromServer(new EventListCallback<List<Event>>() {
                 @Override
                 public void onSuccees(List<Event> data) {
-                    eventsList = data;
-                    if (adapter != null)
-                        adapter.notifyDataSetChanged();
+                    try {
+                        if (data != null) {
+                            eventsList = data;
+                            if (adapter != null)
+                                adapter.notifyDataSetChanged();
+                        }
+                    }catch (Exception e){
+                        Log.d("TAG", e.getMessage());
+                    }
                 }
 
                 @Override

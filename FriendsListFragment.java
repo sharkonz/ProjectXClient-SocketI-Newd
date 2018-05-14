@@ -34,6 +34,7 @@ import java.util.List;
 public class FriendsListFragment extends Fragment {
     public interface friendsFragmentInteraction {
         void showFriendDetails(User user);//Different Object from User - only relevant data!
+
         void deleteFriend(User friend);
     }
 
@@ -92,18 +93,23 @@ public class FriendsListFragment extends Fragment {
                     //Log.d("TAG", "List= " + data);
                     // friendsList=friendsList.get(0).convertUserDataToUser(((ContactsListResponseData) data).getContacts());
 //                            User user = new User();
-                    if (data != null) {
-                        friendsList = data;
+                    try {
+                        if (data != null) {
+                            friendsList = data;
 //                    for (User userr : friendsList) {
 //                        Log.d("TAG", "a" + userr.getFirstName());
 //                    }
-                        ////////////////////////////////MAAYAN LOOK HERE ////////////////////////////////////////////////////////////
-//                    if (adapter != null) {
-//                        adapter.notifyDataSetChanged();
-//                    }/
-                        Log.d("TAG", "friend list obtaib sucful");
+                            ////////////////////////////////MAAYAN LOOK HERE ////////////////////////////////////////////////////////////
+                            if (adapter != null) {
+                                adapter.notifyDataSetChanged();
+                            }
+                            Log.d("TAG", "friend list obtaib sucful");
+                        }
+                    } catch (Exception e) {
+                        Log.d("TAg", e.getMessage());
                     }
                 }
+
                 @Override
                 public void technicalError() {
                     Toast.makeText(MyApp.getContext(), "Technical error,please try again.", Toast.LENGTH_SHORT).show();
@@ -190,8 +196,6 @@ public class FriendsListFragment extends Fragment {
         super.onDetach();
         mListener = null;
     }
-
-
 
 
     private void refreshList() {
